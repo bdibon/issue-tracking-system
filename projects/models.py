@@ -18,12 +18,18 @@ class Project(models.Model):
         settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL
     )
 
+    def __str__(self):
+        return self.title
+
 
 class Contributor(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
 
 
 class Issue(models.Model):
@@ -65,6 +71,9 @@ class Issue(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Comment(models.Model):
     description = models.TextField()
@@ -72,3 +81,6 @@ class Comment(models.Model):
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.description
