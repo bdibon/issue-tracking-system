@@ -8,6 +8,7 @@ django = "*"
 django-rest-framework = "*"
 dj-rest-auth = "*"
 django-allauth = "*"
+httpie = "*"
 
 [dev-packages]
 black = "*"

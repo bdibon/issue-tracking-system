@@ -5,4 +5,4 @@ from django.contrib.auth import get_user_model
 class CustomUserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ["id", "first_name", "last_name", "email"]
+        fields = ["id", "username", "first_name", "last_name", "email"]
