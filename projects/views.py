@@ -1,4 +1,5 @@
-from rest_framework import viewsets, generics
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets, generics, mixins
 from rest_framework.response import Response
 from rest_framework import status, renderers
 
@@ -23,6 +24,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 
 class ProjectContributorsListView(generics.ListCreateAPIView):
+    """
+    List and add contributors to a specific project.
+    """
+
     serializer_class = ContributorReadSerializer
     renderer_classes = [renderers.JSONRenderer, ProjectContributorListRenderer]
     permission_classes = [IsAuthorOrReadOnly]
@@ -49,3 +54,32 @@ class ProjectContributorsListView(generics.ListCreateAPIView):
                 headers=headers,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProjectContributorRetrieveDeleteView(
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView,
+):
+    """
+    Retrieve or destroy a project's contributor.
+    """
+
+    serializer_class = ContributorReadSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.get_queryset())
+
+    def get_queryset(self):
+        project_id = self.kwargs.get("project_id")
+        contributor_id = self.kwargs.get("contributor_id")
+
+        return Contributor.objects.filter(
+            pk=contributor_id, project__id=project_id
+        )
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
