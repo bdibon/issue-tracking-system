@@ -27,10 +27,6 @@ class IsAuthorOrReadOnly(BasePermission):
             return True
 
         user = request.user
-
-        if isinstance(obj, Project):
-            owner = obj.author
-        else:
-            owner = obj.author.user
+        owner = obj.author
 
         return user == owner

@@ -57,13 +57,13 @@ class Issue(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS_KINDS)
     author = models.ForeignKey(
-        Contributor,
+        settings.AUTH_USER_MODEL,
         null=True,
         on_delete=models.SET_NULL,
         related_name="created_issues",
     )
     assignee = models.ForeignKey(
-        Contributor,
+        settings.AUTH_USER_MODEL,
         null=True,
         on_delete=models.SET_NULL,
         related_name="assigned_issues",
@@ -77,7 +77,9 @@ class Issue(models.Model):
 
 class Comment(models.Model):
     description = models.TextField()
-    author = models.ForeignKey(Contributor, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
