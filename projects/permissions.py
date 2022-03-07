@@ -8,36 +8,27 @@ class IsAuthorOrReadOnly(BasePermission):
     Only allow author of a resource to perform update or delete operations.
     """
 
-    def has_permission(self, request, view):
-        if request.user.is_authenticated is False:
-            return False
-        if request.method in SAFE_METHODS:
-            return True
-
-        # Determine if the current user is the owner of the resources.
-        if view.__class__.__name__ == "ProjectContributorsListView":
-            project_id = view.kwargs.get(view.lookup_field)
-            project = Project.objects.get(pk=project_id)
-
-            if project.author == request.user:
-                return True
-
-        if view.__class__.__name__ == "ProjectViewSet":
-            # Any authenticated user should be able to create a new project.
-            if request.method == "POST":
-                return True
-
-            # Check will be performed at object level.
-            if request.method == "PUT" or request.method == "DELETE":
-                return True
-
-        return False
-
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return True
 
         user = request.user
-        owner = obj.author
+        author = obj.author
 
-        return user == owner
+        return user == author
+
+
+class IsProjectManager(BasePermission):
+    """
+    Only allow the project manager to perform specific operations.
+    """
+
+    def has_permission(self, request, view):
+        # Contributors are allowed to do that.
+        if request.method in SAFE_METHODS:
+            return True
+
+        project_id = view.kwargs.get("project_id")
+        project = Project.objects.get(pk=project_id)
+
+        return project.author == request.user

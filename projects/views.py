@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, generics, mixins
+from rest_framework import viewsets, generics, mixins, status, renderers
 from rest_framework.response import Response
-from rest_framework import status, renderers
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import (
     ContributorRetrieveSerializer,
@@ -10,7 +10,7 @@ from .serializers import (
     ProjectSerializer,
 )
 from .models import Project, Contributor
-from .permissions import IsAuthorOrReadOnly
+from .permissions import IsAuthorOrReadOnly, IsProjectManager
 from .renderers import ProjectContributorListRenderer, ProjectCreateRenderer
 
 
@@ -21,7 +21,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthorOrReadOnly]
+    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
     renderer_classes = [renderers.JSONRenderer, ProjectCreateRenderer]
 
     def create(self, request, *args, **kwargs):
@@ -57,7 +57,7 @@ class ProjectContributorsListView(generics.ListCreateAPIView):
 
     serializer_class = ContributorRetrieveSerializer
     renderer_classes = [renderers.JSONRenderer, ProjectContributorListRenderer]
-    permission_classes = [IsAuthorOrReadOnly]
+    permission_classes = [IsAuthenticated, IsProjectManager]
 
     def get_queryset(self):
         project_id = self.kwargs.get(self.lookup_field)
@@ -93,9 +93,12 @@ class ProjectContributorRetrieveDeleteView(
     """
 
     serializer_class = ContributorRetrieveSerializer
+    permission_classes = [IsAuthenticated, IsProjectManager]
 
     def get_object(self):
-        return get_object_or_404(self.get_queryset())
+        obj = get_object_or_404(self.get_queryset())
+        self.check_object_permissions(self.request, obj)
+        return obj
 
     def get_queryset(self):
         project_id = self.kwargs.get("project_id")
