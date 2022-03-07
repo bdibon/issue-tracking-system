@@ -13,7 +13,23 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ContributorReadSerializer(serializers.ModelSerializer):
+class ProjectCreateSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all()
+    )
+
+    class Meta:
+        model = Project
+        fields = ["title", "description", "type", "author"]
+
+
+class ProjectCreateFormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ["title", "description", "type"]
+
+
+class ContributorRetrieveSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer()
     project = ProjectSerializer()
 
@@ -35,7 +51,7 @@ class ContributorReadSerializer(serializers.ModelSerializer):
         return new_representation
 
 
-class ContributorWriteSerializer(serializers.ModelSerializer):
+class ContributorCreateSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all()
     )
@@ -53,5 +69,5 @@ class ContributorWriteSerializer(serializers.ModelSerializer):
         ]
 
 
-class ContributorWriteFormSerializer(serializers.Serializer):
+class ContributorCreateFormSerializer(serializers.Serializer):
     user_id = serializers.IntegerField(min_value=1)

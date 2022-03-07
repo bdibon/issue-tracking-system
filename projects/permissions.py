@@ -9,6 +9,8 @@ class IsAuthorOrReadOnly(BasePermission):
     """
 
     def has_permission(self, request, view):
+        if request.user.is_authenticated is False:
+            return False
         if request.method in SAFE_METHODS:
             return True
 
@@ -18,6 +20,15 @@ class IsAuthorOrReadOnly(BasePermission):
             project = Project.objects.get(pk=project_id)
 
             if project.author == request.user:
+                return True
+
+        if view.__class__.__name__ == "ProjectViewSet":
+            # Any authenticated user should be able to create a new project.
+            if request.method == "POST":
+                return True
+
+            # Check will be performed at object level.
+            if request.method == "PUT" or request.method == "DELETE":
                 return True
 
         return False

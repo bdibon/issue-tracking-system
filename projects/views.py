@@ -4,13 +4,14 @@ from rest_framework.response import Response
 from rest_framework import status, renderers
 
 from .serializers import (
-    ContributorReadSerializer,
-    ContributorWriteSerializer,
+    ContributorRetrieveSerializer,
+    ContributorCreateSerializer,
+    ProjectCreateSerializer,
     ProjectSerializer,
 )
 from .models import Project, Contributor
 from .permissions import IsAuthorOrReadOnly
-from .renderers import ProjectContributorListRenderer
+from .renderers import ProjectContributorListRenderer, ProjectCreateRenderer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -21,6 +22,32 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthorOrReadOnly]
+    renderer_classes = [renderers.JSONRenderer, ProjectCreateRenderer]
+
+    def create(self, request, *args, **kwargs):
+        project_author = request.user
+        serializer = ProjectCreateSerializer(
+            data={
+                "author": project_author.id,
+                "title": request.data["title"],
+                "description": request.data["description"],
+                "type": request.data["type"],
+            }
+        )
+
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update(self, request, *args, **kwargs):
+        kwargs["partial"] = True
+        return super().update(request, *args, **kwargs)
 
 
 class ProjectContributorsListView(generics.ListCreateAPIView):
@@ -28,7 +55,7 @@ class ProjectContributorsListView(generics.ListCreateAPIView):
     List and add contributors to a specific project.
     """
 
-    serializer_class = ContributorReadSerializer
+    serializer_class = ContributorRetrieveSerializer
     renderer_classes = [renderers.JSONRenderer, ProjectContributorListRenderer]
     permission_classes = [IsAuthorOrReadOnly]
 
@@ -41,7 +68,7 @@ class ProjectContributorsListView(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         user_id = request.data["user_id"]
         project_id = kwargs["pk"]
-        serializer = ContributorWriteSerializer(
+        serializer = ContributorCreateSerializer(
             data={"user": user_id, "project": project_id}
         )
 
@@ -65,7 +92,7 @@ class ProjectContributorRetrieveDeleteView(
     Retrieve or destroy a project's contributor.
     """
 
-    serializer_class = ContributorReadSerializer
+    serializer_class = ContributorRetrieveSerializer
 
     def get_object(self):
         return get_object_or_404(self.get_queryset())
