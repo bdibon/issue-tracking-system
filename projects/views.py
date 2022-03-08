@@ -2,15 +2,17 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, mixins, status, renderers
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import serializers
 
 from .serializers import (
+    CommentSerializer,
     ContributorRetrieveSerializer,
     ContributorCreateSerializer,
     IssueSerializer,
     ProjectCreateSerializer,
     ProjectSerializer,
 )
-from .models import Issue, Project, Contributor
+from .models import Comment, Issue, Project, Contributor
 from .permissions import (
     IsAuthorOrReadOnly,
     IsProjectContributor,
@@ -50,8 +52,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # This is not consistent with REST conventions, however as I have been playing with
-    # custom renderers I'll allow myself this fantasy.
+    # This is not consistent with REST conventions,
+    # however as I have been playing with custom renderers
+    # I'll allow myself this fantasy.
     def update(self, request, *args, **kwargs):
         kwargs["partial"] = True
         return super().update(request, *args, **kwargs)
@@ -172,4 +175,78 @@ class IssueRetrieveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
         issue_id = self.kwargs.get("issue_id")
         query_set = Issue.objects.filter(pk=issue_id, project_id=project_id)
         issue = get_object_or_404(query_set)
+
+        self.check_object_permissions(self.request, issue)
+
         return issue
+
+
+class CommentListCreateView(generics.ListCreateAPIView):
+    """
+    List and add comments to an issue.
+    """
+
+    serializer_class = CommentSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsProjectContributor,
+    ]
+
+    def get_queryset(self):
+        project_id = self.kwargs.get("project_id")
+        issue_id = self.kwargs.get("issue_id")
+        issue = Issue.objects.filter(pk=issue_id, project_id=project_id)[:1]
+        return Comment.objects.filter(issue=issue)
+
+    def create(self, request, *args, **kwargs):
+        if not self.get_queryset().exists():
+            raise serializers.ValidationError()
+
+        issue_id = self.kwargs.get("issue_id")
+        serializer = CommentSerializer(
+            data={
+                "author_id": request.user.id,
+                "issue_id": issue_id,
+                "description": request.data["description"],
+            }
+        )
+
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update or delete a commment.
+    """
+
+    serializer_class = CommentSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsProjectContributor,
+        IsAuthorOrReadOnly,
+    ]
+
+    def get_object(self):
+        project_id = self.kwargs.get("project_id")
+        issue_id = self.kwargs.get("issue_id")
+        comment_id = self.kwargs.get("comment_id")
+
+        issue_query_set = Issue.objects.filter(
+            pk=issue_id, project_id=project_id
+        )[:1]
+        comment_query_set = Comment.objects.filter(
+            pk=comment_id, issue=issue_query_set
+        )
+
+        comment = get_object_or_404(comment_query_set)
+        self.check_object_permissions(self.request, comment)
+
+        return comment

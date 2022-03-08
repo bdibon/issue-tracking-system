@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 
-from .models import Contributor, Issue, Project
+from .models import Comment, Contributor, Issue, Project
 from accounts.serializers import CustomUserSerializer
 
 
@@ -100,6 +100,36 @@ class IssueSerializer(serializers.ModelSerializer):
         instance.status = validated_data.get("status", instance.status)
         instance.assignee_id = validated_data.get("assignee", {}).get(
             "id", instance.assignee_id
+        )
+        instance.save()
+        return instance
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        source="author.id",
+        required=False,
+    )
+    issue_id = serializers.PrimaryKeyRelatedField(
+        queryset=Issue.objects.all(), source="issue.id", required=False
+    )
+
+    class Meta:
+        model = Comment
+        exclude = ["author", "issue"]
+
+    def create(self, validated_data):
+        # We want the validation step to run,
+        # but we don't want the nested field representation from source.
+        assert hasattr(
+            self, "_errors"
+        ), "You must call `.is_valid()` before calling `.save()`."
+        return Comment.objects.create(**self.initial_data)
+
+    def update(self, instance, validated_data):
+        instance.description = validated_data.get(
+            "description", instance.description
         )
         instance.save()
         return instance

@@ -2,6 +2,8 @@ from rest_framework.routers import SimpleRouter
 from django.urls import path
 
 from .views import (
+    CommentListCreateView,
+    CommentRetrieveUpdateDestroyView,
     IssueListCreateView,
     IssueRetrieveUpdateDelete,
     ProjectViewSet,
@@ -32,6 +34,16 @@ urlpatterns = [
         "projects/<int:project_id>/issues/<int:issue_id>/",
         IssueRetrieveUpdateDelete.as_view(),
         name="project_issue_detail",
+    ),
+    path(
+        "projects/<int:project_id>/issues/<int:issue_id>/comments/",
+        CommentListCreateView.as_view(),
+        name="issue_comment_list",
+    ),
+    path(
+        "projects/<int:project_id>/issues/<int:issue_id>/comments/<int:comment_id>/",  # noqa E501
+        CommentRetrieveUpdateDestroyView.as_view(),
+        name="issue_comment_detail",
     ),
 ]
 
