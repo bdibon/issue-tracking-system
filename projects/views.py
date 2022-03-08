@@ -57,7 +57,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
 
 
-class ProjectContributorsListView(generics.ListCreateAPIView):
+class ContributorsListCreateView(generics.ListCreateAPIView):
     """
     List and add contributors to a specific project.
     """
@@ -90,7 +90,7 @@ class ProjectContributorsListView(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProjectContributorRetrieveDeleteView(
+class ContributorRetrieveDeleteView(
     mixins.RetrieveModelMixin,
     mixins.DestroyModelMixin,
     generics.GenericAPIView,
@@ -122,7 +122,7 @@ class ProjectContributorRetrieveDeleteView(
         return self.destroy(request, *args, **kwargs)
 
 
-class ProjectIssueListCreateView(generics.ListCreateAPIView):
+class IssueListCreateView(generics.ListCreateAPIView):
     """
     List and add issues to a project.
     """
@@ -155,7 +155,11 @@ class ProjectIssueListCreateView(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProjectIssueRetrieveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+class IssueRetrieveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update and destroy a project's issues.
+    """
+
     serializer_class = IssueSerializer
     permission_classes = [
         IsAuthenticated,
