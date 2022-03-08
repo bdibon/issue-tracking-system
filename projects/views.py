@@ -6,11 +6,16 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import (
     ContributorRetrieveSerializer,
     ContributorCreateSerializer,
+    IssueSerializer,
     ProjectCreateSerializer,
     ProjectSerializer,
 )
-from .models import Project, Contributor
-from .permissions import IsAuthorOrReadOnly, IsProjectManager
+from .models import Issue, Project, Contributor
+from .permissions import (
+    IsAuthorOrReadOnly,
+    IsProjectContributor,
+    IsProjectManager,
+)
 from .renderers import ProjectContributorListRenderer, ProjectCreateRenderer
 
 
@@ -45,6 +50,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # This is not consistent with REST conventions, however as I have been playing with
+    # custom renderers I'll allow myself this fantasy.
     def update(self, request, *args, **kwargs):
         kwargs["partial"] = True
         return super().update(request, *args, **kwargs)
@@ -113,3 +120,52 @@ class ProjectContributorRetrieveDeleteView(
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class ProjectIssueListCreateView(generics.ListCreateAPIView):
+    """
+    List and add issues to a project.
+    """
+
+    serializer_class = IssueSerializer
+    permission_classes = [IsAuthenticated, IsProjectContributor]
+    lookup_field = "project_id"
+
+    def get_queryset(self):
+        project_id = self.kwargs.get(self.lookup_field)
+        return Issue.objects.filter(project__id=project_id)
+
+    def create(self, request, *args, **kwargs):
+        project_id = self.kwargs.get(self.lookup_field)
+        data = {
+            **request.data,
+            "project_id": project_id,
+            "author_id": request.user.id,
+        }
+        serializer = IssueSerializer(data=data)
+
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+                headers=headers,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProjectIssueRetrieveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = IssueSerializer
+    permission_classes = [
+        IsAuthenticated,
+        IsProjectContributor,
+        IsAuthorOrReadOnly,
+    ]
+
+    def get_object(self):
+        project_id = self.kwargs.get("project_id")
+        issue_id = self.kwargs.get("issue_id")
+        query_set = Issue.objects.filter(pk=issue_id, project_id=project_id)
+        issue = get_object_or_404(query_set)
+        return issue

@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 
-from .models import Contributor, Project
+from .models import Contributor, Issue, Project
 from accounts.serializers import CustomUserSerializer
 
 
@@ -71,3 +71,35 @@ class ContributorCreateSerializer(serializers.ModelSerializer):
 
 class ContributorCreateFormSerializer(serializers.Serializer):
     user_id = serializers.IntegerField(min_value=1)
+
+
+class IssueSerializer(serializers.ModelSerializer):
+    author_id = serializers.IntegerField(min_value=0, source="author.id")
+    project_id = serializers.IntegerField(min_value=0, source="project.id")
+    assignee_id = serializers.IntegerField(min_value=0, source="assignee.id")
+
+    class Meta:
+        model = Issue
+        exclude = ("author", "project", "assignee")
+
+    def create(self, validated_data):
+        # We want the validation step to run,
+        # but we don't want the nested field representation from source.
+        assert hasattr(
+            self, "_errors"
+        ), "You must call `.is_valid()` before calling `.save()`."
+        return Issue.objects.create(**self.initial_data)
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get("title", instance.title)
+        instance.description = validated_data.get(
+            "description", instance.description
+        )
+        instance.tag = validated_data.get("tag", instance.tag)
+        instance.priority = validated_data.get("priority", instance.priority)
+        instance.status = validated_data.get("status", instance.status)
+        instance.assignee_id = validated_data.get("assignee", {}).get(
+            "id", instance.assignee_id
+        )
+        instance.save()
+        return instance

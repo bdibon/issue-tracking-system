@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
-from .models import Project
+from .models import Contributor, Project
 
 
 class IsAuthorOrReadOnly(BasePermission):
@@ -32,3 +32,19 @@ class IsProjectManager(BasePermission):
         project = Project.objects.get(pk=project_id)
 
         return project.author == request.user
+
+
+class IsProjectContributor(BasePermission):
+    """
+    Only allow the project contributors to access to a project's ressources.
+    """
+
+    def has_permission(self, request, view):
+        user = request.user
+        project_id = view.kwargs.get("project_id")
+
+        query_set = Contributor.objects.filter(
+            user=user, project_id=project_id
+        )
+
+        return query_set.exists()

@@ -1,3 +1,8 @@
+"""
+This module overrides some of the browsable API forms to make it smoother,
+it is not exhaustive yet.
+"""
+
 from rest_framework import renderers
 
 from .serializers import (
