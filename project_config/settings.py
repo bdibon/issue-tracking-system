@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "rest_framework_simplejwt",
     # Locals.
     "accounts.apps.AccountsConfig",
     "projects.apps.ProjectsConfig",
@@ -147,8 +148,10 @@ AUTHENTICATION_BACKENDS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        # We might keep this one for the browsable API.
+        # "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -156,3 +159,8 @@ REST_FRAMEWORK = {
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+REST_USE_JWT = True
+# JIRA clone was better but sounded too goofy compared to Issue Tracking System (ITS)!
+JWT_AUTH_COOKIE = "its-auth"
+JWT_AUTH_REFRESH_COOKIE = "its-refresh-token"
