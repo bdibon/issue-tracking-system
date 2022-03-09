@@ -24,6 +24,10 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
 
 
 class ProjectCreateFormSerializer(serializers.ModelSerializer):
+    """
+    This is used to pimp the browser API interface.
+    """
+
     class Meta:
         model = Project
         fields = ["title", "description", "type"]
@@ -70,6 +74,10 @@ class ContributorCreateSerializer(serializers.ModelSerializer):
 
 
 class ContributorCreateFormSerializer(serializers.Serializer):
+    """
+    This is used to pimp the browser API interface.
+    """
+
     user_id = serializers.IntegerField(min_value=1)
 
 
