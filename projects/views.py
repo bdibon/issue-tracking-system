@@ -209,15 +209,18 @@ class CommentListCreateView(generics.ListCreateAPIView):
         IsProjectContributor,
     ]
 
-    def get_queryset(self):
+    def get_related_issue(self):
         project_id = self.kwargs.get("project_id")
         issue_id = self.kwargs.get("issue_id")
-        issue = Issue.objects.filter(pk=issue_id, project_id=project_id)[:1]
+        return Issue.objects.filter(pk=issue_id, project_id=project_id)[:1]
+
+    def get_queryset(self):
+        issue = self.get_related_issue()
         return Comment.objects.filter(issue=issue)
 
     def create(self, request, *args, **kwargs):
-        if not self.get_queryset().exists():
-            raise serializers.ValidationError()
+        if not self.get_related_issue().exists():
+            raise serializers.ValidationError(detail="No matching issue.")
 
         issue_id = self.kwargs.get("issue_id")
         serializer = CommentSerializer(
