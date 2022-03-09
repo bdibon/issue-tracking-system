@@ -22,6 +22,13 @@ class ProjectCreateSerializer(serializers.ModelSerializer):
         model = Project
         fields = ["title", "description", "type", "author"]
 
+    def save(self, **kwargs):
+        project_instance = super().save(**kwargs)
+        author = project_instance.author
+        # This saves us headaches with permissions.
+        Contributor.objects.create(user=author, project=project_instance)
+        return project_instance
+
 
 class ProjectCreateFormSerializer(serializers.ModelSerializer):
     """

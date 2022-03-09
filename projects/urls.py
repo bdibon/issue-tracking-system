@@ -16,7 +16,7 @@ router.register("projects", ProjectViewSet, basename="projects")
 
 urlpatterns = [
     path(
-        "projects/<int:pk>/users/",
+        "projects/<int:project_id>/users/",
         ContributorsListCreateView.as_view(),
         name="project_contributor_list",
     ),

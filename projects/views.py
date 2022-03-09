@@ -68,6 +68,7 @@ class ContributorsListCreateView(generics.ListCreateAPIView):
     serializer_class = ContributorRetrieveSerializer
     renderer_classes = [renderers.JSONRenderer, ProjectContributorListRenderer]
     permission_classes = [IsAuthenticated, IsProjectManager]
+    lookup_field = "project_id"
 
     def get_queryset(self):
         project_id = self.kwargs.get(self.lookup_field)
@@ -77,7 +78,7 @@ class ContributorsListCreateView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         user_id = request.data["user_id"]
-        project_id = kwargs["pk"]
+        project_id = kwargs[self.lookup_field]
         serializer = ContributorCreateSerializer(
             data={"user": user_id, "project": project_id}
         )
@@ -124,6 +125,19 @@ class ContributorRetrieveDeleteView(
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
+    def destroy(self, request, *args, **kwargs):
+        contributor = self.get_object()
+
+        # An admin cannot delete himself, which would be awkward.
+        project_manager = contributor.project.author
+        if contributor.user == project_manager:
+            raise serializers.ValidationError(
+                detail="Project manager cannot be removed from the contributors."
+            )
+
+        self.perform_destroy(contributor)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class IssueListCreateView(generics.ListCreateAPIView):
     """
@@ -131,7 +145,10 @@ class IssueListCreateView(generics.ListCreateAPIView):
     """
 
     serializer_class = IssueSerializer
-    permission_classes = [IsAuthenticated, IsProjectContributor]
+    permission_classes = [
+        IsAuthenticated,
+        IsProjectContributor,
+    ]
     lookup_field = "project_id"
 
     def get_queryset(self):
