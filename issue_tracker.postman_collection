@@ -1,0 +1,1135 @@
+{
+	"info": {
+		"_postman_id": "e0e3a620-6859-4396-a645-6a2a16a4a583",
+		"name": "Issue Tracker",
+		"description": "# Issue Tracker API\n\nThis API provides functionality to handle projects and their issues. A user can create a project, add fellow contributors to it. The contributor might collaborate on issues, comment on them, etc.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "contributors",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ1NzU1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhZWRkY2YyOWVhMTRhZDE4NTg1ZWFlNjkwMDJhZDAxIiwidXNlcl9pZCI6MX0.RvW_THI8vflI0u6ryg-zTn_sOTLonWqMxeFSeegNw98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/projects/:project_id/users/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"users",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										}
+									]
+								},
+								"description": "### List\n\nList the contributors of a specific project."
+							},
+							"response": []
+						},
+						{
+							"name": "retrieve",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQwOTM5LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6ImQwYWYwZWFjZmYyYjRhYWI4Y2U5MWE2ZGExNGM0ZTc5IiwidXNlcl9pZCI6MX0.HCJ948-KqxyP7fNWVKTxiNgtiCAExS8G-5fCneOymCs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/projects/:project_id/users/:contributor_id/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"users",
+										":contributor_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										},
+										{
+											"key": "contributor_id",
+											"value": "21"
+										}
+									]
+								},
+								"description": "### Retrieve\n\nGet information about a specific project's contributor."
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ1NzU1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhZWRkY2YyOWVhMTRhZDE4NTg1ZWFlNjkwMDJhZDAxIiwidXNlcl9pZCI6MX0.RvW_THI8vflI0u6ryg-zTn_sOTLonWqMxeFSeegNw98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user_id\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/projects/:project_id/users/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"users",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										}
+									]
+								},
+								"description": "### Create\n\nAdd a new contributor to a project."
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQxMzE1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjA1NzJkZDk4OTcyMjQyYzM5ODU1NTljMGVhYzhiMzkxIiwidXNlcl9pZCI6MX0.m147ryrXr34qD_ZHXKJhCJ3WoSUsfxD3-69ZhZGhLTw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/users/:contributor_id/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"users",
+										":contributor_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										},
+										{
+											"key": "contributor_id",
+											"value": "22"
+										}
+									]
+								},
+								"description": "### Delete\n\nRemove a contributor from a project."
+							},
+							"response": []
+						}
+					],
+					"description": "## Contributors\n\nThe users of the application that can contribute to a specific project i.e **add** and **edit** *issues* or *comments*."
+				},
+				{
+					"name": "issues",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ1NzU1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhZWRkY2YyOWVhMTRhZDE4NTg1ZWFlNjkwMDJhZDAxIiwidXNlcl9pZCI6MX0.RvW_THI8vflI0u6ryg-zTn_sOTLonWqMxeFSeegNw98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"assignee_id\": 4,\r\n    \"title\": \"S'occuper du jardin.\",\r\n    \"description\": \"Les plantes ont soif.\",\r\n    \"tag\": \"T\",\r\n    \"priority\": \"H\",\r\n    \"status\": \"T\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										}
+									]
+								},
+								"description": "### Create\n\nAdd an issue to a project."
+							},
+							"response": []
+						},
+						{
+							"name": "list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ1NzU1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhZWRkY2YyOWVhMTRhZDE4NTg1ZWFlNjkwMDJhZDAxIiwidXNlcl9pZCI6MX0.RvW_THI8vflI0u6ryg-zTn_sOTLonWqMxeFSeegNw98",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										}
+									]
+								},
+								"description": "### List\n\nGet all the issues of a project."
+							},
+							"response": []
+						},
+						{
+							"name": "retrieve",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODM2MTk4LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6ImViNGIxYjEwZTRkOTQ3MzZhOTM2M2MwOTRiMzczOGZhIiwidXNlcl9pZCI6MX0.yf2LR98-5JlfN92XX8MfIRrblYXv9Rw4YW7S9KCczis",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/:issue_id/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "1"
+										},
+										{
+											"key": "issue_id",
+											"value": "5"
+										}
+									]
+								},
+								"description": "### Retrieve\n\nGet details about an issue."
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODM2MTk4LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6ImViNGIxYjEwZTRkOTQ3MzZhOTM2M2MwOTRiMzczOGZhIiwidXNlcl9pZCI6MX0.yf2LR98-5JlfN92XX8MfIRrblYXv9Rw4YW7S9KCczis",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"decription\": \"avec des petits gâteaux?\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/:issue_id/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "1"
+										},
+										{
+											"key": "issue_id",
+											"value": "5"
+										}
+									]
+								},
+								"description": "### Update\n\nPerform an update on a specific issue. You need to be the `author` of the issue to do that."
+							},
+							"response": []
+						},
+						{
+							"name": "partial update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODM2MTk4LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6ImViNGIxYjEwZTRkOTQ3MzZhOTM2M2MwOTRiMzczOGZhIiwidXNlcl9pZCI6MX0.yf2LR98-5JlfN92XX8MfIRrblYXv9Rw4YW7S9KCczis",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"decription\": \"avec des petits gâteaux?\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8001/projects/:project_id/issues/:issue_id/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8001",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "1"
+										},
+										{
+											"key": "issue_id",
+											"value": "5"
+										}
+									]
+								},
+								"description": "### Partial update\n\nPerform a partial update on a specific issue.\n\nYou need to be the `author` of the issue to do that."
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODM2OTE3LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6ImIwYmViZDVkYTE1NTQyMmFhYzBjY2Q4NjM1ZTlkZjZkIiwidXNlcl9pZCI6MX0.Y2xet6S0Qqx6py8uS4bUK2crXJzp4dHvE41V5aydGFM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8001/projects/:project_id/issues/:issue_id/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8001",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "1"
+										},
+										{
+											"key": "issue_id",
+											"value": "6"
+										}
+									]
+								},
+								"description": "### Delete\n\nDelete a specific issue.\n\nYou need to be the `author` of the issue to do that."
+							},
+							"response": []
+						}
+					],
+					"description": "Issues\n\nThe project's bread an butter.\n\nYou need to be a conctributor to access any of the `projects/:project_id/issues/` endpoints.\n\n``` json\n    {\n        \"id\": 7,\n        \"author_id\": 1,\n        \"project_id\": 7,\n        \"assignee_id\": 4,\n        \"title\": \"S'occuper du jardin.\",\n        \"description\": \"Les plantes ont soif.\",\n        \"tag\": \"T\",\n        \"priority\": \"H\",\n        \"status\": \"T\",\n        \"created_time\": \"2022-03-09T18:06:26.785012+01:00\",\n        \"updated_time\": \"2022-03-09T18:06:26.785029+01:00\"\n    }\n\n```"
+				},
+				{
+					"name": "comments",
+					"item": [
+						{
+							"name": "list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ2Mzc1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhNzZlMmI3YzYyNTRlZTViYjAxNDJjYTRjMzBmZWY5IiwidXNlcl9pZCI6MX0.FEA3bykKHkdQtNNi5bA85VbtjN5whdp_maAIidzA8Ts",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/:issue_id/comments/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										"comments",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										},
+										{
+											"key": "issue_id",
+											"value": "7"
+										}
+									]
+								},
+								"description": "### List\n\nList the comments of a specific issue."
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ2Mzc1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhNzZlMmI3YzYyNTRlZTViYjAxNDJjYTRjMzBmZWY5IiwidXNlcl9pZCI6MX0.FEA3bykKHkdQtNNi5bA85VbtjN5whdp_maAIidzA8Ts",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"Nouveau com voué à la suppression\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/:issue_id/comments/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										"comments",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										},
+										{
+											"key": "issue_id",
+											"value": "7"
+										}
+									]
+								},
+								"description": "### Create\n\nAdd a comment on a specific issue."
+							},
+							"response": []
+						},
+						{
+							"name": "retrieve",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ2Mzc1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhNzZlMmI3YzYyNTRlZTViYjAxNDJjYTRjMzBmZWY5IiwidXNlcl9pZCI6MX0.FEA3bykKHkdQtNNi5bA85VbtjN5whdp_maAIidzA8Ts",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/:issue_id/comments/:comment_id",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										"comments",
+										":comment_id"
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										},
+										{
+											"key": "issue_id",
+											"value": "7"
+										},
+										{
+											"key": "comment_id",
+											"value": "6"
+										}
+									]
+								},
+								"description": "### Retrieve\n\nGet details about a comment."
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ2Mzc1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhNzZlMmI3YzYyNTRlZTViYjAxNDJjYTRjMzBmZWY5IiwidXNlcl9pZCI6MX0.FEA3bykKHkdQtNNi5bA85VbtjN5whdp_maAIidzA8Ts",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"ET on update le comment!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/:issue_id/comments/:comment_id/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										"comments",
+										":comment_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										},
+										{
+											"key": "issue_id",
+											"value": "7"
+										},
+										{
+											"key": "comment_id",
+											"value": "6"
+										}
+									]
+								},
+								"description": "### Update\n\nUpdate a comment. You need to be the `author` of the comment to do that."
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODQ2Mzc1LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6IjhhNzZlMmI3YzYyNTRlZTViYjAxNDJjYTRjMzBmZWY5IiwidXNlcl9pZCI6MX0.FEA3bykKHkdQtNNi5bA85VbtjN5whdp_maAIidzA8Ts",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/projects/:project_id/issues/:issue_id/comments/:comment_id/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"projects",
+										":project_id",
+										"issues",
+										":issue_id",
+										"comments",
+										":comment_id",
+										""
+									],
+									"variable": [
+										{
+											"key": "project_id",
+											"value": "7"
+										},
+										{
+											"key": "issue_id",
+											"value": "7"
+										},
+										{
+											"key": "comment_id",
+											"value": "7"
+										}
+									]
+								},
+								"description": "### Delete\n\nDelete a specific a comment, you need to be the `author` of the comment to do that."
+							},
+							"response": []
+						}
+					],
+					"description": "## Comments\n\nThe comments made by any contributors of the project on a specific issue.\n\n``` json\n    {\n        \"id\": 6,\n        \"author_id\": 1,\n        \"issue_id\": 7,\n        \"description\": \"ET on update le comment!\",\n        \"created_time\": \"2022-03-09T18:14:09.597648+01:00\",\n        \"updated_time\": \"2022-03-09T18:17:03.694533+01:00\"\n    }\n\n```\n\nNote that you need to be a project contributor to make comments on an issue."
+				},
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2OTA2MzYwLCJpYXQiOjE2NDY5MDYwNjAsImp0aSI6ImZjODZhMDI5MWViMjQzNWY4NDQ1ZDhhNzQwOWQwMGU0IiwidXNlcl9pZCI6MX0.Qc8BSD1L8E1RsEeVWkFRRB-VnvvrlQwSefvkN-JsJhI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/projects/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"projects",
+								""
+							]
+						},
+						"description": "### List projects\n\nThis endpoint allows any logged in member to view the list of existing projects in the API."
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2OTA2NzY0LCJpYXQiOjE2NDY5MDYwNjAsImp0aSI6IjUwOTZkYmIzYzZiZjQwYzk5NmMxMzljNTI4MWZjMjJiIiwidXNlcl9pZCI6MX0.syY7Cm3NBHYzZx11Z-4EY7XprMUrAgSKLWi-TFX8Qb0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/projects/:project_id/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"projects",
+								":project_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "### Retrieve a project\n\nRetrieve a single project from the API."
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2OTA2NzY0LCJpYXQiOjE2NDY5MDYwNjAsImp0aSI6IjUwOTZkYmIzYzZiZjQwYzk5NmMxMzljNTI4MWZjMjJiIiwidXNlcl9pZCI6MX0.syY7Cm3NBHYzZx11Z-4EY7XprMUrAgSKLWi-TFX8Qb0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Protection contre la flamme d'Udun.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/projects/:id/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"projects",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5"
+								}
+							]
+						},
+						"description": "### Updata a project\n\nAllows update of a specific project, update and partial updates can be made from this endpoint.\n\nYou need to be the `author` of the project to perform this action."
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODM1MTIwLCJpYXQiOjE2NDY4MzQ4MjAsImp0aSI6ImJjYjhiYTc5ZDE5YTRlYTI4NDE5MjBhMjAyNmJmNmI2IiwidXNlcl9pZCI6Mn0.POPOFXYdbmDgg6xYfdagBdQgKRgy9_iwjO7kQZNzq9g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/projects/:project_id/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"projects",
+								":project_id",
+								""
+							],
+							"variable": [
+								{
+									"key": "project_id",
+									"value": null
+								}
+							]
+						},
+						"description": "### Delete\n\nDeletes the target project, you need to be the `author` of the project to use this."
+					},
+					"response": []
+				},
+				{
+					"name": "partial_update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2OTA2NzY0LCJpYXQiOjE2NDY5MDYwNjAsImp0aSI6IjUwOTZkYmIzYzZiZjQwYzk5NmMxMzljNTI4MWZjMjJiIiwidXNlcl9pZCI6MX0.syY7Cm3NBHYzZx11Z-4EY7XprMUrAgSKLWi-TFX8Qb0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Premier\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/projects/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"1",
+								""
+							]
+						},
+						"description": "### Partial update\n\nAllow partial update of a project, identical to its `PUT` counterpart."
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2ODM3OTk4LCJpYXQiOjE2NDY4MzU4OTgsImp0aSI6ImMzMzFjNDEyNjljMDQ0NzU4N2JiZWQ3ZGM4MmRjMDU1IiwidXNlcl9pZCI6MX0.Knoq1GYkdjGix1xtaLaSk9frrFQBSSrPH_mnOafIrt4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Stop\",\r\n    \"description\": \"Une appli pour arrêter de fumer.\",\r\n    \"type\": \"IO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/projects/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"projects",
+								""
+							]
+						},
+						"description": "### Create\n\nAdd a new project to the API, you need to be logged in."
+					},
+					"response": []
+				}
+			],
+			"description": "## Projects\n\nProjects are the heart of the Issue Tracker API. They have issues, contributors, and an author."
+		},
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"bdibon\",\r\n    \"password\": \"azerty\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/login/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"login",
+								""
+							]
+						},
+						"description": "### Login\n\nThe API will return an **access token**, a **refresh token** and information about the logged in user.\n\n``` json\n{\n    \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ2OTA1NTkwLCJpYXQiOjE2NDY5MDUyOTAsImp0aSI6Ijg3ZGNkZGRiYzczNzQ0OWI4YjM4Y2NjOTQwNDM0Y2E0IiwidXNlcl9pZCI6MX0.NPL6DouYNg7FZWOUudBUzLLfXCbhbPwNjj9RsvBzmwI\",\n    \"refresh_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0Njk5MTY5MCwiaWF0IjoxNjQ2OTA1MjkwLCJqdGkiOiJiOTdlYjA1NjI1YjY0MGIwOWE1ODhkYTY0OGI2M2E3NCIsInVzZXJfaWQiOjF9.aIykenBeV2OCHGw7ggbIL6Ot1RdrNMyRWy4LqYLzbPs\",\n    \"user\": {\n        \"pk\": 1,\n        \"username\": \"bdibon\",\n        \"email\": \"bdibon@example.com\",\n        \"first_name\": \"Boris\",\n        \"last_name\": \"DIBON\"\n    }\n}\n\n```\n\nYou will need the **access token** in subsequent requests."
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"mickeymouse\",\r\n    \"password1\": \"i<3minnie\",\r\n    \"password2\": \"i<3minnie\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8000/signup/",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"signup",
+								""
+							]
+						},
+						"description": "### Signup\n\nSignup is similar to login."
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0NjkyMjI5OCwiaWF0IjoxNjQ2ODM1ODk4LCJqdGkiOiJjNzU5MWRiMWFiNTI0ZmU2YWY0YzIyZDY4ZWU5ZjhiNyIsInVzZXJfaWQiOjF9.zuiJ8mOEoMuX1TS4Y_NyWkr7f4LW7Qc9-HN-6tAu2zo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/refresh/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"refresh",
+								""
+							]
+						},
+						"description": "### Refresh an expired token\n\nYou need to provide the previously obtained **refresh token** in the body of the request to get new token."
+					},
+					"response": []
+				}
+			],
+			"description": "## Accounts\n\nThis part of the API has 3 endpoints that are relevant to authenticate,\n\n*   `login/`\n*   `signup/`\n    \n\nas you would expect.\n\nSince the authentication relies on tokens, they might expire and you will likely need to refresh them via `refresh/`."
+		}
+	]
+}
