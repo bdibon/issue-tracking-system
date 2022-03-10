@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "rest_framework_simplejwt",
+    "drf_spectacular",
     # Locals.
     "accounts.apps.AccountsConfig",
     "projects.apps.ProjectsConfig",
@@ -156,6 +157,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -164,3 +166,10 @@ REST_USE_JWT = True
 # JIRA clone was better but sounded too goofy compared to Issue Tracking System (ITS)!
 JWT_AUTH_COOKIE = "its-auth"
 JWT_AUTH_REFRESH_COOKIE = "its-refresh-token"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Issue Tracker Sytem",
+    "DESCRIPTION": "An API to manage projects and their related issues.",
+    "VERSION": "1.0.0",
+    # OTHER SETTINGS
+}
