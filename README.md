@@ -10,7 +10,7 @@ You can find the API documentation [here](https://documenter.getpostman.com/view
 
 ## Setup
 
-Let's assume you have `pipenv` installed on your machine, then all you need to do is to clone this repository on your machine.
+Let's assume you have `pipenv` installed on your machine, then all you need to do is to clone this repository locally.
 
 ```
 git clone https://github.com/bdibon/issue-tracking-system.git
